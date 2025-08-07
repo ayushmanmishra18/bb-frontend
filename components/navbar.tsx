@@ -1,40 +1,46 @@
-"use client"
+"use client";
 import dynamic from "next/dynamic";
-import { useState } from "react"
-import { useTheme } from "next-themes"
-import { Moon, Sun, Heart, ChevronDown, Menu, X } from "lucide-react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { usePathname } from "next/navigation"
+import { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
+import { Moon, Sun, Heart, ChevronDown, Menu, X } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
-  const { theme, setTheme } = useTheme()
-  const [showRegisterDropdown, setShowRegisterDropdown] = useState(false)
-  const [showLoginDropdown, setShowLoginDropdown] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const router = useRouter()
-  const pathname = usePathname()
-  
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  const [showRegisterDropdown, setShowRegisterDropdown] = useState(false);
+  const [showLoginDropdown, setShowLoginDropdown] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  // Ensure component is mounted before accessing theme to prevent hydration errors
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // Check if current page is a login page
-  const isLoginPage = pathname.startsWith('/login')
-  
+  const isLoginPage = pathname.startsWith("/login");
+
   const roles = [
     { id: "admin", label: "Blood Bank Admin", color: "text-red-600" },
     { id: "donor", label: "Donor", color: "text-blue-600" },
-    { id: "patient", label: "Patient", color: "text-green-600" }
-  ]
+    { id: "patient", label: "Patient", color: "text-green-600" },
+  ];
 
   const navLinks = [
     { href: "/", label: "Home" },
-    { href: "/about", label: "About" }
-  ]
+    { href: "/about", label: "About" },
+  ];
 
   const handleRoleSelect = (type: "register" | "login", role: string) => {
-    router.push(`/${type}/${role}`)
-    setShowRegisterDropdown(false)
-    setShowLoginDropdown(false)
-    setMobileMenuOpen(false)
-  }
+    router.push(`/${type}/${role}`);
+    setShowRegisterDropdown(false);
+    setShowLoginDropdown(false);
+    setMobileMenuOpen(false);
+  };
 
   return (
     <nav className="sticky top-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-red-100 dark:border-gray-800">
@@ -71,7 +77,9 @@ export default function Navbar() {
               className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
               aria-label="Toggle theme"
             >
-              {theme === "dark" ? (
+              {!mounted ? (
+                <div className="h-5 w-5" />
+              ) : theme === "dark" ? (
                 <Sun className="h-5 w-5 text-yellow-500" />
               ) : (
                 <Moon className="h-5 w-5 text-gray-600" />
@@ -83,14 +91,18 @@ export default function Navbar() {
               <div className="relative">
                 <button
                   onClick={(e) => {
-                    e.stopPropagation()
-                    setShowRegisterDropdown(!showRegisterDropdown)
-                    setShowLoginDropdown(false)
+                    e.stopPropagation();
+                    setShowRegisterDropdown(!showRegisterDropdown);
+                    setShowLoginDropdown(false);
                   }}
                   className="flex items-center space-x-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-all duration-200 hover:scale-105"
                 >
                   <span>Register</span>
-                  <ChevronDown className={`h-4 w-4 transition-transform ${showRegisterDropdown ? 'rotate-180' : ''}`} />
+                  <ChevronDown
+                    className={`h-4 w-4 transition-transform ${
+                      showRegisterDropdown ? "rotate-180" : ""
+                    }`}
+                  />
                 </button>
                 {showRegisterDropdown && (
                   <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 animate-in slide-in-from-top-2 z-20">
@@ -115,13 +127,17 @@ export default function Navbar() {
             <div className="relative">
               <button
                 onClick={() => {
-                  setShowLoginDropdown(!showLoginDropdown)
-                  setShowRegisterDropdown(false)
+                  setShowLoginDropdown(!showLoginDropdown);
+                  setShowRegisterDropdown(false);
                 }}
-               className="flex items-center space-x-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-all duration-200 hover:scale-105"
+                className="flex items-center space-x-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-all duration-200 hover:scale-105"
               >
                 <span>Login</span>
-                <ChevronDown className={`h-4 w-4 transition-transform ${showLoginDropdown ? 'rotate-180' : ''}`} />
+                <ChevronDown
+                  className={`h-4 w-4 transition-transform ${
+                    showLoginDropdown ? "rotate-180" : ""
+                  }`}
+                />
               </button>
               {showLoginDropdown && (
                 <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 animate-in slide-in-from-top-2 z-20">
@@ -150,7 +166,9 @@ export default function Navbar() {
               className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
               aria-label="Toggle theme"
             >
-              {theme === "dark" ? (
+              {!mounted ? (
+                <div className="h-5 w-5" />
+              ) : theme === "dark" ? (
                 <Sun className="h-5 w-5 text-yellow-500" />
               ) : (
                 <Moon className="h-5 w-5 text-gray-600" />
@@ -185,11 +203,13 @@ export default function Navbar() {
                   {link.label}
                 </Link>
               ))}
-              
+
               {/* Register Section - Only show if not on login page */}
               {!isLoginPage && (
                 <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">Register as:</p>
+                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
+                    Register as:
+                  </p>
                   {roles.map((role) => (
                     <button
                       key={role.id}
@@ -205,7 +225,9 @@ export default function Navbar() {
               )}
               {/* Login Section */}
               <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">Login as:</p>
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
+                  Login as:
+                </p>
                 {roles.map((role) => (
                   <button
                     key={role.id}
@@ -223,5 +245,5 @@ export default function Navbar() {
         )}
       </div>
     </nav>
-  )
+  );
 }
