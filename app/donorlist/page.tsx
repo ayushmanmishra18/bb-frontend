@@ -31,8 +31,8 @@ export default function DonorListPage() {
 
     try {
       const url = cityFilter.trim() 
-        ? `http://localhost:5000/getByCity?field=2&city=${encodeURIComponent(cityFilter.toLowerCase())}&match=startsWith`
-        : 'http://localhost:5000/donorDetail';
+        ? `https://bank-back-rni1.onrender.com/getByCity?field=2&city=${encodeURIComponent(cityFilter.toLowerCase())}&match=startsWith`
+        : 'https://bank-back-rni1.onrender.com/donorDetail';
       
       console.log('Fetching donors from:', url);
       const response = await axios.get(url);

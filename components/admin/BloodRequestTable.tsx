@@ -28,7 +28,7 @@ export default function ApprovedRequestsTable() {
     const fetchApprovedRequests = async () => {
       try {
         // Fetching approved donation requests from the specific endpoint using axios
-        const response = await axios.get("http://localhost:5000/getBloodRequests", {
+        const response = await axios.get("https://bank-back-rni1.onrender.com/getBloodRequests", {
           withCredentials: true, // Necessary for cookie-based authentication
         });
 

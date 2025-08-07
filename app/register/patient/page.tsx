@@ -59,7 +59,7 @@ export default function PatientRegisterPage() {
     setError(null);
     setSuccess(null);
 
-    axios.post("http://localhost:5000/register-patient", {
+    axios.post("https://bank-back-rni1.onrender.com/register-patient", {
       ...formData,
       age: Number(formData.age),
       status: true,

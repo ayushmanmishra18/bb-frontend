@@ -33,7 +33,7 @@ export default function PatientListPage() {
         let response;
         // If a city is entered, call the search by city endpoint
         if (cityFilter) {
-          response = await axios.get("http://localhost:5000/getByCity", {
+          response = await axios.get("https://bank-back-rni1.onrender.com/getByCity", {
             params: {
               field: 1,
               city: cityFilter.toLowerCase(),
@@ -42,7 +42,7 @@ export default function PatientListPage() {
           });
         } else {
           // If no city filter, fetch all patients from the main endpoint
-          response = await axios.get("http://localhost:5000/patientDetail");
+          response = await axios.get("https://bank-back-rni1.onrender.com/patientDetail");
         }
 
        // Inside your fetchPatients function, after getting response.data:
@@ -81,7 +81,7 @@ setPatients(patientsData);
     // Post a donation request to the backend
     axios
       .post(
-        "http://localhost:5000/donate",
+        "https://bank-back-rni1.onrender.com/donate",
         {
           patientId:String( patient.id),
           urgencyLevel: "high",

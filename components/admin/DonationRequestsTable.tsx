@@ -36,7 +36,7 @@ export default function DonationRequestsTable() {
   useEffect(() => {
     const fetchDonations = async () => {
       try {
-        const res = await fetch("http://localhost:5000/getDonations", {
+        const res = await fetch("https://bank-back-rni1.onrender.com/getDonations", {
           credentials: "include",
         });
 

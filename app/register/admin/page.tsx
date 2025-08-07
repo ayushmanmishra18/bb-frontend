@@ -57,7 +57,7 @@ export default function AdminRegisterPage() {
     setError(null);
     setSuccess(null);
 // connection set up
-axios.post("http://localhost:5000/register-bloodBank", 
+axios.post("https://bank-back-rni1.onrender.com/register-bloodBank", 
   {
     ...formData,
     totalBloodBags: 0, // Backend expects this, but will override to 0 

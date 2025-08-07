@@ -60,7 +60,7 @@ export default function DonorRegisterPage() {
     setError(null);
     setSuccess(null);
 //routing connection done
-    axios.post("http://localhost:5000/donor-registration", {
+    axios.post("https://bank-back-rni1.onrender.com/donor-registration", {
       ...formData,
       age: Number(formData.age),
       status: true,
