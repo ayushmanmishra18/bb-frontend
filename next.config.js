@@ -1,25 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Enable static exports for static site generation
-  output: 'export',
-  
-  // Image optimization settings
+  // Image optimization settings (re-enabled)
   images: {
-    // Disable image optimization since we're using 'export' output
-    unoptimized: true,
+    // You can configure domains here if using external images
+    // domains: ['example.com'],
   },
-  
+
   // Add trailing slashes to URLs for better compatibility
   trailingSlash: true,
-  
+
   // Enable React Strict Mode for better development experience
   reactStrictMode: true,
-  
-  // Uncomment and modify these as needed:
-  
-  // basePath: '/your-base-path', // For deploying to a subdirectory
-  // assetPrefix: '/your-cdn-url', // For deploying assets to a CDN
-  
+
   // Optional: Configure webpack
   webpack: (config, { isServer }) => {
     // Add custom webpack configuration here if needed
@@ -27,4 +19,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+module.exports = nextConfig; // Only one export line is needed
