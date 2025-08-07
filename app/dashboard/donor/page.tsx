@@ -1,24 +1,81 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Heart, Calendar, Award, Activity, Clock, MapPin, Phone, Mail } from "lucide-react"
+import { useState } from "react";
+import {
+  Heart,
+  Calendar,
+  Award,
+  Activity,
+  Clock,
+  MapPin,
+  Phone,
+  Mail,
+} from "lucide-react";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 export default function DonorDashboard() {
-  const [activeTab, setActiveTab] = useState("overview")
+  return (
+    <ProtectedRoute allowedRoles={["donor"]}>
+      <DonorDashboardContent />
+    </ProtectedRoute>
+  );
+}
+
+function DonorDashboardContent() {
+  const [activeTab, setActiveTab] = useState("overview");
 
   const donorStats = [
     { title: "Total Donations", value: "12", icon: Heart, color: "bg-red-500" },
-    { title: "Lives Saved", value: "36", icon: Activity, color: "bg-green-500" },
-    { title: "Next Eligible", value: "45 days", icon: Clock, color: "bg-blue-500" },
-    { title: "Donor Points", value: "1,200", icon: Award, color: "bg-purple-500" }
-  ]
+    {
+      title: "Lives Saved",
+      value: "36",
+      icon: Activity,
+      color: "bg-green-500",
+    },
+    {
+      title: "Next Eligible",
+      value: "45 days",
+      icon: Clock,
+      color: "bg-blue-500",
+    },
+    {
+      title: "Donor Points",
+      value: "1,200",
+      icon: Award,
+      color: "bg-purple-500",
+    },
+  ];
 
   const donationHistory = [
-    { id: 1, date: "2024-01-15", location: "City Blood Bank", units: 1, status: "Completed" },
-    { id: 2, date: "2023-11-20", location: "Metro Hospital", units: 1, status: "Completed" },
-    { id: 3, date: "2023-09-10", location: "City Blood Bank", units: 1, status: "Completed" },
-    { id: 4, date: "2023-07-05", location: "Community Center", units: 1, status: "Completed" }
-  ]
+    {
+      id: 1,
+      date: "2024-01-15",
+      location: "City Blood Bank",
+      units: 1,
+      status: "Completed",
+    },
+    {
+      id: 2,
+      date: "2023-11-20",
+      location: "Metro Hospital",
+      units: 1,
+      status: "Completed",
+    },
+    {
+      id: 3,
+      date: "2023-09-10",
+      location: "City Blood Bank",
+      units: 1,
+      status: "Completed",
+    },
+    {
+      id: 4,
+      date: "2023-07-05",
+      location: "Community Center",
+      units: 1,
+      status: "Completed",
+    },
+  ];
 
   const upcomingDrives = [
     {
@@ -27,7 +84,7 @@ export default function DonorDashboard() {
       date: "2024-02-15",
       time: "9:00 AM - 5:00 PM",
       location: "Community Center, Downtown",
-      organizer: "Red Cross"
+      organizer: "Red Cross",
     },
     {
       id: 2,
@@ -35,9 +92,9 @@ export default function DonorDashboard() {
       date: "2024-02-20",
       time: "10:00 AM - 4:00 PM",
       location: "Tech Park, Building A",
-      organizer: "TechCorp"
-    }
-  ]
+      organizer: "TechCorp",
+    },
+  ];
 
   const achievements = [
     { title: "First Time Donor", icon: "🩸", earned: true },
@@ -45,8 +102,8 @@ export default function DonorDashboard() {
     { title: "10 Donations", icon: "🥇", earned: true },
     { title: "Life Saver", icon: "❤️", earned: true },
     { title: "25 Donations", icon: "🌟", earned: false },
-    { title: "50 Donations", icon: "💎", earned: false }
-  ]
+    { title: "50 Donations", icon: "💎", earned: false },
+  ];
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
@@ -64,7 +121,10 @@ export default function DonorDashboard() {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {donorStats.map((stat, index) => (
-            <div key={index} className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+            <div
+              key={index}
+              className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700"
+            >
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
@@ -90,7 +150,7 @@ export default function DonorDashboard() {
                 { id: "overview", label: "Overview" },
                 { id: "history", label: "Donation History" },
                 { id: "drives", label: "Upcoming Drives" },
-                { id: "achievements", label: "Achievements" }
+                { id: "achievements", label: "Achievements" },
               ].map((tab) => (
                 <button
                   key={tab.id}
@@ -139,7 +199,10 @@ export default function DonorDashboard() {
               </h3>
               <div className="space-y-4">
                 {donationHistory.slice(0, 3).map((donation) => (
-                  <div key={donation.id} className="flex items-center justify-between">
+                  <div
+                    key={donation.id}
+                    className="flex items-center justify-between"
+                  >
                     <div>
                       <p className="font-medium text-gray-900 dark:text-white">
                         {donation.location}
@@ -211,7 +274,10 @@ export default function DonorDashboard() {
         {activeTab === "drives" && (
           <div className="space-y-6">
             {upcomingDrives.map((drive) => (
-              <div key={drive.id} className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+              <div
+                key={drive.id}
+                className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700"
+              >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
@@ -220,7 +286,9 @@ export default function DonorDashboard() {
                     <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
                       <div className="flex items-center space-x-2">
                         <Calendar className="h-4 w-4" />
-                        <span>{drive.date} • {drive.time}</span>
+                        <span>
+                          {drive.date} • {drive.time}
+                        </span>
                       </div>
                       <div className="flex items-center space-x-2">
                         <MapPin className="h-4 w-4" />
@@ -258,11 +326,13 @@ export default function DonorDashboard() {
                 >
                   <div className="text-center">
                     <div className="text-3xl mb-2">{achievement.icon}</div>
-                    <h4 className={`font-semibold ${
-                      achievement.earned
-                        ? "text-green-800 dark:text-green-200"
-                        : "text-gray-500 dark:text-gray-400"
-                    }`}>
+                    <h4
+                      className={`font-semibold ${
+                        achievement.earned
+                          ? "text-green-800 dark:text-green-200"
+                          : "text-gray-500 dark:text-gray-400"
+                      }`}
+                    >
                       {achievement.title}
                     </h4>
                     {achievement.earned && (
@@ -278,5 +348,5 @@ export default function DonorDashboard() {
         )}
       </div>
     </div>
-  )
+  );
 }

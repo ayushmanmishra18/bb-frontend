@@ -13,26 +13,77 @@ import {
   Edit,
   Trash2,
 } from "lucide-react";
-import axios from 'axios'
+import axios from "axios";
 import DonationRequestsTable from "@/components/admin/DonationRequestsTable";
 import ApprovedRequestsTable from "@/components/admin/BloodRequestTable";
-
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 export default function AdminDashboard() {
+  return (
+    <ProtectedRoute allowedRoles={["admin"]}>
+      <AdminDashboardContent />
+    </ProtectedRoute>
+  );
+}
+
+function AdminDashboardContent() {
   const [activeTab, setActiveTab] = useState("overview");
 
   const stats = [
-    { title: "Total Donors", value: "1,247", icon: Users, color: "bg-blue-500" },
+    {
+      title: "Total Donors",
+      value: "1,247",
+      icon: Users,
+      color: "bg-blue-500",
+    },
     { title: "Blood Units", value: "856", icon: Droplets, color: "bg-red-500" },
-    { title: "Requests Today", value: "23", icon: Activity, color: "bg-green-500" },
-    { title: "Critical Stock", value: "4", icon: Heart, color: "bg-orange-500" },
+    {
+      title: "Requests Today",
+      value: "23",
+      icon: Activity,
+      color: "bg-green-500",
+    },
+    {
+      title: "Critical Stock",
+      value: "4",
+      icon: Heart,
+      color: "bg-orange-500",
+    },
   ];
 
   const recentDonations = [
-    { id: 1, donor: "John Smith", bloodType: "O+", units: 1, date: "2024-01-15", status: "Completed" },
-    { id: 2, donor: "Sarah Johnson", bloodType: "A-", units: 1, date: "2024-01-15", status: "Processing" },
-    { id: 3, donor: "Mike Wilson", bloodType: "B+", units: 1, date: "2024-01-14", status: "Completed" },
-    { id: 4, donor: "Emily Davis", bloodType: "AB+", units: 1, date: "2024-01-14", status: "Completed" },
+    {
+      id: 1,
+      donor: "John Smith",
+      bloodType: "O+",
+      units: 1,
+      date: "2024-01-15",
+      status: "Completed",
+    },
+    {
+      id: 2,
+      donor: "Sarah Johnson",
+      bloodType: "A-",
+      units: 1,
+      date: "2024-01-15",
+      status: "Processing",
+    },
+    {
+      id: 3,
+      donor: "Mike Wilson",
+      bloodType: "B+",
+      units: 1,
+      date: "2024-01-14",
+      status: "Completed",
+    },
+    {
+      id: 4,
+      donor: "Emily Davis",
+      bloodType: "AB+",
+      units: 1,
+      date: "2024-01-14",
+      status: "Completed",
+    },
   ];
 
   const bloodInventory = [
@@ -151,50 +202,50 @@ export default function AdminDashboard() {
           </div>
         )}
 
-     {activeTab === "requests" && (
-  <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
-    {/* Card Header */}
-    <div className="p-6 border-b border-gray-200 dark:border-gray-700">
-      <div className="flex items-center justify-between">
-        <div>
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-            Blood Requests
-          </h3>
-          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-            Manage all incoming blood requests from patients and hospitals.
-          </p>
-        </div>
-        
-        {/* Search and Filter Controls */}
-        <div className="flex space-x-3">
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search className="h-4 w-4 text-gray-400" />
-            </div>
-            <input
-              type="text"
-              placeholder="Search requests..."
-              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white dark:bg-gray-700 dark:border-gray-600 placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            />
-          </div>
-          <select className="block w-40 pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600">
-            <option>All Status</option>
-            <option>Pending</option>
-            <option>Fulfilled</option>
-            <option>In Progress</option>
-            <option>Cancelled</option>
-          </select>
-        </div>
-      </div>
-    </div>
-    
-    {/* Card Body containing the data table */}
-    <div className="px-6 py-4">
-      <ApprovedRequestsTable />
-    </div>
-  </div>
-)}
+        {activeTab === "requests" && (
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+            {/* Card Header */}
+            <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    Blood Requests
+                  </h3>
+                  <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                    Manage all incoming blood requests from patients and
+                    hospitals.
+                  </p>
+                </div>
 
+                {/* Search and Filter Controls */}
+                <div className="flex space-x-3">
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Search className="h-4 w-4 text-gray-400" />
+                    </div>
+                    <input
+                      type="text"
+                      placeholder="Search requests..."
+                      className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white dark:bg-gray-700 dark:border-gray-600 placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    />
+                  </div>
+                  <select className="block w-40 pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600">
+                    <option>All Status</option>
+                    <option>Pending</option>
+                    <option>Fulfilled</option>
+                    <option>In Progress</option>
+                    <option>Cancelled</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            {/* Card Body containing the data table */}
+            <div className="px-6 py-4">
+              <ApprovedRequestsTable />
+            </div>
+          </div>
+        )}
 
         {/* Other Tabs */}
         {activeTab === "overview" && (
@@ -240,7 +291,8 @@ export default function AdminDashboard() {
               <div className="space-y-3">
                 {bloodInventory
                   .filter(
-                    (item) => item.status === "Critical" || item.status === "Low"
+                    (item) =>
+                      item.status === "Critical" || item.status === "Low"
                   )
                   .map((item) => (
                     <div
@@ -257,7 +309,9 @@ export default function AdminDashboard() {
                           <p className="font-medium text-gray-900 dark:text-white">
                             {item.units} units available
                           </p>
-                          <p className={`text-sm ${item.color}`}>{item.status} Stock</p>
+                          <p className={`text-sm ${item.color}`}>
+                            {item.status} Stock
+                          </p>
                         </div>
                       </div>
                       <button className="px-3 py-1 bg-red-600 text-white rounded-lg text-sm hover:bg-red-700">
@@ -359,7 +413,7 @@ export default function AdminDashboard() {
                       Date
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                     	Status
+                      Status
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                       Actions
@@ -375,7 +429,7 @@ export default function AdminDashboard() {
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                         <span className="px-2 py-1 bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-400 rounded-full text-xs font-medium">
                           {donation.bloodType}
-                        </span>  
+                        </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                         {donation.units}
@@ -384,11 +438,13 @@ export default function AdminDashboard() {
                         {donation.date}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          donation.status === "Completed"
-                            ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-                            : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
-                        }`}>
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs font-medium ${
+                            donation.status === "Completed"
+                              ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                              : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
+                          }`}
+                        >
                           {donation.status}
                         </span>
                       </td>

@@ -1,17 +1,50 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Heart, Clock, MapPin, Phone, Search, Filter, AlertCircle, CheckCircle } from "lucide-react"
+import { useState } from "react";
+import {
+  Heart,
+  Clock,
+  MapPin,
+  Phone,
+  Search,
+  Filter,
+  AlertCircle,
+  CheckCircle,
+} from "lucide-react";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 export default function PatientDashboard() {
-  const [activeTab, setActiveTab] = useState("overview")
+  return (
+    <ProtectedRoute allowedRoles={["patient"]}>
+      <PatientDashboardContent />
+    </ProtectedRoute>
+  );
+}
+
+function PatientDashboardContent() {
+  const [activeTab, setActiveTab] = useState("overview");
 
   const patientStats = [
     { title: "Active Requests", value: "2", icon: Heart, color: "bg-red-500" },
-    { title: "Fulfilled Requests", value: "5", icon: CheckCircle, color: "bg-green-500" },
-    { title: "Pending Approval", value: "1", icon: Clock, color: "bg-yellow-500" },
-    { title: "Emergency Requests", value: "0", icon: AlertCircle, color: "bg-orange-500" }
-  ]
+    {
+      title: "Fulfilled Requests",
+      value: "5",
+      icon: CheckCircle,
+      color: "bg-green-500",
+    },
+    {
+      title: "Pending Approval",
+      value: "1",
+      icon: Clock,
+      color: "bg-yellow-500",
+    },
+    {
+      title: "Emergency Requests",
+      value: "0",
+      icon: AlertCircle,
+      color: "bg-orange-500",
+    },
+  ];
 
   const bloodRequests = [
     {
@@ -22,7 +55,7 @@ export default function PatientDashboard() {
       hospital: "City General Hospital",
       date: "2024-01-15",
       status: "Active",
-      description: "Surgery scheduled for tomorrow"
+      description: "Surgery scheduled for tomorrow",
     },
     {
       id: 2,
@@ -32,7 +65,7 @@ export default function PatientDashboard() {
       hospital: "Metro Medical Center",
       date: "2024-01-10",
       status: "Fulfilled",
-      description: "Regular treatment"
+      description: "Regular treatment",
     },
     {
       id: 3,
@@ -42,9 +75,9 @@ export default function PatientDashboard() {
       hospital: "Emergency Care Unit",
       date: "2024-01-05",
       status: "Fulfilled",
-      description: "Emergency surgery"
-    }
-  ]
+      description: "Emergency surgery",
+    },
+  ];
 
   const nearbyBloodBanks = [
     {
@@ -53,7 +86,7 @@ export default function PatientDashboard() {
       distance: "0.5 miles",
       phone: "+1 (555) 123-4567",
       availability: { "O+": 45, "O-": 12, "A+": 23, "A-": 8 },
-      status: "Open"
+      status: "Open",
     },
     {
       id: 2,
@@ -61,7 +94,7 @@ export default function PatientDashboard() {
       distance: "1.2 miles",
       phone: "+1 (555) 234-5678",
       availability: { "O+": 67, "O-": 15, "A+": 34, "A-": 11 },
-      status: "Open"
+      status: "Open",
     },
     {
       id: 3,
@@ -69,9 +102,9 @@ export default function PatientDashboard() {
       distance: "2.1 miles",
       phone: "+1 (555) 345-6789",
       availability: { "O+": 23, "O-": 6, "A+": 18, "A-": 4 },
-      status: "Closed"
-    }
-  ]
+      status: "Closed",
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
@@ -89,7 +122,10 @@ export default function PatientDashboard() {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {patientStats.map((stat, index) => (
-            <div key={index} className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+            <div
+              key={index}
+              className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700"
+            >
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
@@ -134,7 +170,7 @@ export default function PatientDashboard() {
                 { id: "overview", label: "Overview" },
                 { id: "requests", label: "My Requests" },
                 { id: "bloodbanks", label: "Nearby Blood Banks" },
-                { id: "newrequest", label: "New Request" }
+                { id: "newrequest", label: "New Request" },
               ].map((tab) => (
                 <button
                   key={tab.id}
@@ -161,31 +197,40 @@ export default function PatientDashboard() {
                 Active Requests
               </h3>
               <div className="space-y-4">
-                {bloodRequests.filter(req => req.status === "Active").map((request) => (
-                  <div key={request.id} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="px-2 py-1 bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-400 rounded-full text-sm font-medium">
-                        {request.bloodType}
-                      </span>
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        request.urgency === "Critical" ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200" :
-                        request.urgency === "High" ? "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200" :
-                        "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
-                      }`}>
-                        {request.urgency} Priority
-                      </span>
+                {bloodRequests
+                  .filter((req) => req.status === "Active")
+                  .map((request) => (
+                    <div
+                      key={request.id}
+                      className="border border-gray-200 dark:border-gray-700 rounded-lg p-4"
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="px-2 py-1 bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-400 rounded-full text-sm font-medium">
+                          {request.bloodType}
+                        </span>
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs font-medium ${
+                            request.urgency === "Critical"
+                              ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+                              : request.urgency === "High"
+                              ? "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200"
+                              : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
+                          }`}
+                        >
+                          {request.urgency} Priority
+                        </span>
+                      </div>
+                      <p className="font-medium text-gray-900 dark:text-white">
+                        {request.units} units needed
+                      </p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        {request.hospital} • {request.date}
+                      </p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                        {request.description}
+                      </p>
                     </div>
-                    <p className="font-medium text-gray-900 dark:text-white">
-                      {request.units} units needed
-                    </p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      {request.hospital} • {request.date}
-                    </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                      {request.description}
-                    </p>
-                  </div>
-                ))}
+                  ))}
               </div>
             </div>
 
@@ -199,8 +244,12 @@ export default function PatientDashboard() {
                   <div className="flex items-center space-x-3">
                     <Heart className="h-5 w-5 text-red-600" />
                     <div>
-                      <p className="font-medium text-gray-900 dark:text-white">Request Blood</p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">Submit a new blood request</p>
+                      <p className="font-medium text-gray-900 dark:text-white">
+                        Request Blood
+                      </p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        Submit a new blood request
+                      </p>
                     </div>
                   </div>
                 </button>
@@ -208,8 +257,12 @@ export default function PatientDashboard() {
                   <div className="flex items-center space-x-3">
                     <MapPin className="h-5 w-5 text-blue-600" />
                     <div>
-                      <p className="font-medium text-gray-900 dark:text-white">Find Blood Banks</p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">Locate nearby blood banks</p>
+                      <p className="font-medium text-gray-900 dark:text-white">
+                        Find Blood Banks
+                      </p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        Locate nearby blood banks
+                      </p>
                     </div>
                   </div>
                 </button>
@@ -217,8 +270,12 @@ export default function PatientDashboard() {
                   <div className="flex items-center space-x-3">
                     <Phone className="h-5 w-5 text-green-600" />
                     <div>
-                      <p className="font-medium text-gray-900 dark:text-white">Emergency Hotline</p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">Call 1-800-BLOOD-NOW</p>
+                      <p className="font-medium text-gray-900 dark:text-white">
+                        Emergency Hotline
+                      </p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        Call 1-800-BLOOD-NOW
+                      </p>
                     </div>
                   </div>
                 </button>
@@ -288,20 +345,28 @@ export default function PatientDashboard() {
                         {request.date}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          request.urgency === "Critical" ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200" :
-                          request.urgency === "High" ? "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200" :
-                          "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
-                        }`}>
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs font-medium ${
+                            request.urgency === "Critical"
+                              ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+                              : request.urgency === "High"
+                              ? "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200"
+                              : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
+                          }`}
+                        >
                           {request.urgency}
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          request.status === "Active" ? "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200" :
-                          request.status === "Fulfilled" ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200" :
-                          "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200"
-                        }`}>
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs font-medium ${
+                            request.status === "Active"
+                              ? "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
+                              : request.status === "Fulfilled"
+                              ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                              : "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200"
+                          }`}
+                        >
                           {request.status}
                         </span>
                       </td>
@@ -316,7 +381,10 @@ export default function PatientDashboard() {
         {activeTab === "bloodbanks" && (
           <div className="space-y-6">
             {nearbyBloodBanks.map((bank) => (
-              <div key={bank.id} className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+              <div
+                key={bank.id}
+                className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700"
+              >
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
@@ -333,17 +401,22 @@ export default function PatientDashboard() {
                       </div>
                     </div>
                   </div>
-                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                    bank.status === "Open" 
-                      ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-                      : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
-                  }`}>
+                  <span
+                    className={`px-3 py-1 rounded-full text-sm font-medium ${
+                      bank.status === "Open"
+                        ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                        : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+                    }`}
+                  >
                     {bank.status}
                   </span>
                 </div>
                 <div className="grid grid-cols-4 gap-4">
                   {Object.entries(bank.availability).map(([type, units]) => (
-                    <div key={type} className="text-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                    <div
+                      key={type}
+                      className="text-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
+                    >
                       <div className="font-semibold text-red-600 dark:text-red-400 mb-1">
                         {type}
                       </div>
@@ -394,7 +467,7 @@ export default function PatientDashboard() {
                   />
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -460,5 +533,5 @@ export default function PatientDashboard() {
         )}
       </div>
     </div>
-  )
+  );
 }
