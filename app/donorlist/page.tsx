@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -26,18 +27,18 @@ export default function DonorListPage() {
   const router = useRouter();
 
   const fetchDonors = async () => {
+    if (!cityFilter.trim()) return; // Don’t fetch if search is empty
+
     setLoading(true);
     setError(null);
 
     try {
-      const url = cityFilter.trim() 
-        ? `https://bank-back-rni1.onrender.com/getByCity?field=2&city=${encodeURIComponent(cityFilter.toLowerCase())}&match=startsWith`
-        : 'https://bank-back-rni1.onrender.com/donorDetail';
-      
-      console.log('Fetching donors from:', url);
+      const url = `https://bank-back-rni1.onrender.com/getByCity?field=2&city=${encodeURIComponent(
+        cityFilter.toLowerCase()
+      )}&match=startsWith`;
+
       const response = await axios.get(url);
-      console.log('API Response:', response.data);
-      
+
       let donorsData = [];
       if (Array.isArray(response.data)) {
         donorsData = response.data;
@@ -46,12 +47,11 @@ export default function DonorListPage() {
       } else if (response.data.donors) {
         donorsData = response.data.donors;
       }
-      
-      console.log('Processed donors data:', donorsData);
+
       setDonors(donorsData);
 
       if (donorsData.length === 0) {
-        setError(cityFilter ? `No donors found in ${cityFilter}` : "No donors available");
+        setError(`No donors found in ${cityFilter}`);
       }
     } catch (err) {
       console.error("Error fetching donors:", err);
@@ -64,17 +64,12 @@ export default function DonorListPage() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (cityFilter === "" || cityFilter.length >= 2) {
+      if (cityFilter.length >= 2) {
         fetchDonors();
       }
     }, 500);
-
     return () => clearTimeout(timer);
   }, [cityFilter]);
-
-  const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
-  };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 py-8 px-4">
@@ -86,12 +81,11 @@ export default function DonorListPage() {
               Find Blood Donors
             </h1>
             <p className="text-gray-600 dark:text-gray-400">
-              {cityFilter 
+              {cityFilter
                 ? `Searching donors in ${cityFilter}`
-                : "Search for blood donors by city or view all available donors"}
+                : "Search city to get active donor list"}
             </p>
           </div>
-          
         </div>
 
         <div className="mb-8 relative">
@@ -112,6 +106,11 @@ export default function DonorListPage() {
         {loading ? (
           <div className="flex justify-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-red-500" />
+          </div>
+        ) : cityFilter === "" ? (
+          <div className="text-center py-20 text-gray-500 dark:text-gray-400">
+            <FiSearch className="mx-auto mb-4 h-10 w-10" />
+            <p className="text-lg">Search a city to get active donor list</p>
           </div>
         ) : error ? (
           <div className="bg-red-50 dark:bg-red-900/30 border-l-4 border-red-500 p-4 rounded-lg shadow mb-6">
@@ -136,15 +135,16 @@ export default function DonorListPage() {
               No donors found
             </h3>
             <p className="mt-1 text-gray-500 dark:text-gray-400">
-              {cityFilter
-                ? `No donors found in ${cityFilter}`
-                : "There are currently no donors registered in the system."}
+              No donors found in {cityFilter}
             </p>
           </div>
         ) : (
           <div className="grid gap-4 sm:grid-cols-1 lg:grid-cols-2">
             {donors.map((donor) => (
-              <div key={donor.id} className="bg-white dark:bg-gray-800 p-5 rounded-xl shadow hover:shadow-md transition-shadow">
+              <div
+                key={donor.id}
+                className="bg-white dark:bg-gray-800 p-5 rounded-xl shadow hover:shadow-md transition-shadow"
+              >
                 <div className="flex flex-col space-y-4">
                   <div className="flex items-start justify-between">
                     <div>
