@@ -27,7 +27,7 @@ export default function DonationConfirmationPage() {
               {patientName || "a patient in need"}
               {bloodType && ` (${bloodType})`}
             </span>
-            . You're a lifesaver!
+            . You are a lifesaver!
           </p>
         </div>
 

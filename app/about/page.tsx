@@ -129,7 +129,7 @@ export default function AboutPage() {
               Our Impact
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-300">
-              Together, we're making a difference across the nation
+              Together, we are making a difference across the nation
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -198,7 +198,7 @@ export default function AboutPage() {
             {team.map((member, index) => (
               <div key={index} className="text-center">
                 <div className="relative mb-4">
-                  <img
+                  <Image
                     src={member.image}
                     alt={member.name}
                     className="w-32 h-32 rounded-full mx-auto object-cover"

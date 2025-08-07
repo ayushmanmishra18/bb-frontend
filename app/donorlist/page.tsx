@@ -67,10 +67,10 @@ export default function DonorListPage() {
       if (cityFilter === "" || cityFilter.length >= 2) {
         fetchDonors();
       }
-    }, 500); // 500ms debounce
-  
+    }, 500);
+
     return () => clearTimeout(timer);
-  }, [cityFilter, fetchDonors]);
+  }, [cityFilter]);
 
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
