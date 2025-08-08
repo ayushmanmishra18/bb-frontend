@@ -95,6 +95,10 @@ export default function ConnectionTest() {
         headers: {
           Origin: window.location.origin,
         },
+        params: {
+          field: "1",
+          city: "test",
+        },
       });
 
       if (response.status === 200) {

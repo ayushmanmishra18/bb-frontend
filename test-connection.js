@@ -87,7 +87,7 @@ async function testCorsHeaders() {
   console.log('-'.repeat(40));
   
   try {
-    const response = await makeRequest('/getByCity');
+    const response = await makeRequest('/getByCity?field=1&city=test');
     
     const corsHeader = response.headers['access-control-allow-origin'];
     const credentialsHeader = response.headers['access-control-allow-credentials'];
@@ -150,7 +150,7 @@ async function testDataEndpoints() {
   console.log('🔍 Test 4: Data Endpoints');
   console.log('-'.repeat(40));
   
-  const endpoints = ['/getByCity', '/patientDetail', '/health'];
+  const endpoints = ['/getByCity?field=1&city=test', '/patientDetail', '/health'];
   let successCount = 0;
   
   for (const endpoint of endpoints) {

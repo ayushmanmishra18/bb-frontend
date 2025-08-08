@@ -315,7 +315,12 @@ export class DataFlowTests {
     try {
       console.log("🔍 Testing blood banks data retrieval...");
 
-      const response = await api.get("/getByCity");
+      const response = await api.get("/getByCity", {
+        params: {
+          field: "1",
+          city: "test",
+        },
+      });
 
       if (response.status === 200 && Array.isArray(response.data)) {
         console.log("✅ Blood banks data endpoint is working");
