@@ -94,10 +94,10 @@ export default function DonationRequestsTable() {
     },{
       withCredentials:true,
     })
-     notify()
       
     .then(response => {
   //taoster that request has been accepted 
+     notify()
   
 
        const certificateUrl=response.data?.data?.certificateUrl
