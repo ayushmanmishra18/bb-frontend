@@ -105,10 +105,7 @@ export default function DonationRequestsTable() {
         const link=document.createElement('a');
       
        console.log(certificateUrl);
-       const backendUrl = "https://bank-back-rni1.onrender.com";
-       const fullPdfUrl = backendUrl + certificateUrl;
-       console.log(fullPdfUrl)
-        link.href=fullPdfUrl
+        link.href=certificateUrl
 
         link.setAttribute('download','donation-certificate.pdf')
         document.body.appendChild(link)
