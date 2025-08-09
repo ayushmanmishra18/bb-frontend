@@ -78,12 +78,13 @@ setPatients(patientsData);
   }, [cityFilter]); // The effect re-runs whenever cityFilter changes
 
   const handleDonateClick = (patient: Patient) => {
+    console.log(patient.id)
     // Post a donation request to the backend
     axios
       .post(
         "https://bank-back-rni1.onrender.com/donate",
         {
-          patientId:String(patient.id),
+          patientId:patient.id,
           urgencyLevel: "high",
           requiredUnits: 2,
           notes: "Needs quickly",
