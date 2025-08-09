@@ -86,7 +86,7 @@ export default function DonationRequestsTable() {
     try{
 
     
-    axios.post("https://bb-frontend-seven.vercel.app//donations/accept',{
+    axios.post("https://bb-frontend-seven.vercel.app/donations/accept',{
       donationRequestId:id,
       numberOfUnits:2,
       notes:"Approved Quickly",
