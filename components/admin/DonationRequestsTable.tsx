@@ -86,7 +86,7 @@ export default function DonationRequestsTable() {
     try{
 
     
-    axios.post("https://bb-frontend-seven.vercel.app/donations/accept',{
+    axios.post("https://bank-back-rni1.onrender.com/donations/accept",{
       donationRequestId:id,
       numberOfUnits:2,
       notes:"Approved Quickly",
@@ -94,10 +94,11 @@ export default function DonationRequestsTable() {
     },{
       withCredentials:true,
     })
+     notify()
+      
     .then(response => {
   //taoster that request has been accepted 
-     {notify}
-     <ToastContainer /> 
+  
 
        const certificateUrl=response.data?.data?.certificateUrl
        if(certificateUrl){
@@ -144,6 +145,7 @@ export default function DonationRequestsTable() {
 
   return (
     <div className="space-y-6">
+         <ToastContainer /> 
       {/* Summary Cards */}
       {summary && (
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
